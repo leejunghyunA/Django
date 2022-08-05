@@ -1,17 +1,31 @@
-<!-- <!DOCTYPE html>
+<!DOCTYPE html>
+{% load static %}
 <html lang="ko">
 <head>
     <meta charset = "UTF-8">
     <title>LANDING</title>
+    <link rel="stylesheet" href="{%static '../../static/single_pages/css/bootstrap.min.css' %}" media="screen">
+    <link rel="stylesheet" href="{%static '../../../../static/single_pages/css/landing.css' %}" media="screen">
+
+    <script src="https://kit.fontawesome.com/cc6b89498d.js" crossorigin="anonymous"></script>
+    <!-- 내 킷코드 -->
 </head>
 <body>
 <nav>
-    <a href="/blog/">Blog</a>
-    <a href="/about_me/">About me</a>
+    <a href="/blog/"><i class="fa-duotone fa-avocado"></i>&nbsp Blog</a>
+    <a href="/about_me/"><i class="fa-light fa-user-secret"></i>&nbsp About me</a>
 </nav>
+
 
 <h1>**Welcome**</h1>
 <h2>Main_page</h2>
 <h3>더 수정해야함!</h3>
+
+<div class="fixed-bottom">
+    <footer class="footer py-3 bg-dark">
+        <div class="container">
+            <p class="m-0 text-center text-white">Copyright &copy; Leejunghyun 2022 </p>
+        </div>
+    </footer>
 </body>
-</html> -->
+</html>
