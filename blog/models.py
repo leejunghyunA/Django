@@ -15,3 +15,7 @@ class Post(models.Model):
     # pk는 장고의 모델에 기본적으로 생성되는 필드 = 각 레코드의 고유값 (like 인덱스 번호와 비슷)
     def __str__(self):
         return f'[{self.pk}]{self.title}'
+
+    # url 생성규칙 정의(함수정의) - post에 history 버튼 옆에 <VIEW ON SITE> 버튼 생성
+    def get_absolute_url(self):
+        return f'/blog/{self.pk}/'
