@@ -6,6 +6,9 @@ class Post(models.Model):
     title = models.CharField(max_length=30)
     content = models.TextField()
 
+    # 포스트 요약문보여주기
+    hook_text = models.CharField(max_length = 100, blank = True)
+
      # update이미지 저장할 폴더의 경로 규칙 지정
     head_image = models.ImageField(upload_to='blog/images/%Y/%m/%d/', blank=True)
     file_upload = models.FileField(upload_to = 'blog/files/%Y/%m/%d/', blank=True)
