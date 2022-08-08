@@ -1,47 +1,36 @@
 <!-- base.html을 불러옴 -->
 {% extends 'blog/base.html' %}
-{% block head_title %} {{post.title}} -Blog {% endblock %}
+
 <!-- base.html에 없는 밑에 부분을 이어줌(밑에 endblock으로 마무리 필수) -->
 {% block main_area %}
 
-<div class="container">
+<div class="container my-3">
+    <h1>블로그 list</h1>
     <div class="row">
-        <div class="col-lg-8 col-lg-9">
+        <div class="col-md-8 col-lg-9">
+<!-- 입력한 post를 모두 받아옴for 문 사용 -->
+            {% for p in post_list %}
+            <div class="card mb-4">
+                {% if p.head_image %}
+                    <img class="card-img-top" src="{{p.head_images.url}}" alt="{{p}} head image">
+                {% else %}
+                <!--임의 이미지-->
+                    <img class="card-img-top" src="https://picsum.photos/700/400" alt="random_image">
 
-            <h1 class="mt-4">{{post.title}}</h1>
-            <p class="lead">
-                by
-                <a href="#"></a>
-            </p>
-            <hr>
-            <p>{{post.created_at}}</p>
-            <hr>
-            
-        {% if post.head_image %}
-            <img class="img-fluid rounded" src="{{post.head_image.url}}" alt="{{ post.title}} head_image">
-        {% else %}
-            <img class="img-fluid rounded" src="https://picsum.photos/seed/{{post.id}}/700/400" alt="random_image">
-        {% endif %}
-            <hr>
-            <p>{{post.content}}</p>
-
-            {% if post.file_upload %}
-                <a href="{{post.file_upload.url}}" class="btn btn-ouline-info" role="button" download>Download:
-                    {% if post.get_file_ext == 'csv' %}
-                        <i class="fas fa-file-csv"></i>
-                    {% elif post.get_file_ext == 'xlsx' or post.get_file_ext == 'xls' %}
-                        <i class="fas fa-file-excel"></i>
-                    {% elif post.get_file_ext == 'docx' or post.get_file_ext == 'doc' %}
-                        <i class="fas fa-file-word"></i>
-                    {% else %}
-                        <i class="far fa-file"></i>
-                    {% endif %}
-                    {{ post.get_file_name }}
-                </a>
-            {% endif %}
-            <hr>
-            <p><한줄평>
+                <!--임의 이미지 고정-->
+                    <img class="card-img-top" src="https://picsum.photos/seed/{{p.id}}/700/400" alt="random_image">
+                {% endif %}
+                <div class="card-body">
+                    <h2 class="card-title"><a href="{{p.get_absolute_url}}">{{p.title}}</a></h2>
+                    <h4>{{p.created_at}}</h4>
+                    <p class="card-text">{{p.content}}</p>
+                    <!--버튼 생성-->
+                    <a href="#" class="btn"></a>
+                </div>
+            </div>
+            {% endfor %}
         </div>
+
         <div class="col-md-4 col-lg-3">
             <div class="card my-4">
                 <ul class="list-group">
@@ -87,4 +76,5 @@
         </div>
     </div>
 </div>
+
 {% endblock %}

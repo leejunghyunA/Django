@@ -1,9 +1,14 @@
 from django.db import models
+import os
 
 # CharField = 문자를 담는 필드/ TextFied = 문자열의 길이 제한이 없음/ DateTimeField = 월,일,시,분,초를 기록할 수 있게 해주는 필드
 class Post(models.Model):
     title = models.CharField(max_length=30)
     content = models.TextField()
+
+     # update이미지 저장할 폴더의 경로 규칙 지정
+    head_image = models.ImageField(upload_to='blog/images/%Y/%m/%d/', blank=True)
+    file_upload = models.FileField(upload_to = 'blog/files/%Y/%m/%d/', blank=True)
 
     # <자동으로 작성시간과 수정시간 저장>
     # created_at = 처음으로 레코드가 생성될 때 현재 시각으로 자동저장
@@ -19,3 +24,12 @@ class Post(models.Model):
     # url 생성규칙 정의(함수정의) - post에 history 버튼 옆에 <VIEW ON SITE> 버튼 생성
     def get_absolute_url(self):
         return f'/blog/{self.pk}/'
+
+
+    # 파일명 출력
+    def get_file_name(self):
+        return os.path.basename(self.file_upload.name)
+
+    # 확장자 
+    def get_file_ext(self):
+        return self.get_file_name().split('.')[-1]
