@@ -1,12 +1,19 @@
 # from django.shortcuts import render
 from django.views.generic import ListView, DetailView
-from .models import Post
+from .models import Post, Category
 
 # 요청을 받으면 포스트에 받은객체를 rendering해서 넣어줌
 class PostList(ListView):
     model = Post
     ordering = '-pk'
 
+    # category 추가 (get_context_data 내장 함수 오버라이딩)
+    def get_context_data(self, **kwargs):
+        context = super(PostList, self).get_context_data()
+        context['categories'] = Category.objects.all()
+        context['no_category_post_count'] = Post.objects.filter(category=None).count()
+
+        return context
 class PostDetail(DetailView):
     model = Post
 # Create your views here.

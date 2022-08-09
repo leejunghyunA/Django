@@ -4,6 +4,18 @@ from django.db import models
 from django.contrib.auth.models import User
 import os
 
+# Category 모델 만들기(unique=True=> 동일한 이름을 갖는건 추가 안함/ SlugField=> 사람이 읽을 수 있는 텍스트로 고유 URL을 만들 때 주사용)
+class Category(models.Model):
+    name = models.CharField(max_length=50, unique=True)
+    slug = models.SlugField(max_length=200, unique=True, allow_unicode=True)
+
+    def __str__(self):
+        return self.name
+
+    # Categorys 를 Categories 로 변경 (복수형 직접 설정)
+    class Meta:
+        verbose_name_plural = 'Categories'
+
 # CharField = 문자를 담는 필드/ TextFied = 문자열의 길이 제한이 없음/ DateTimeField = 월,일,시,분,초를 기록할 수 있게 해주는 필드
 class Post(models.Model):
     title = models.CharField(max_length=30)
@@ -24,6 +36,9 @@ class Post(models.Model):
 
     # user을 불러와 author 필드 구현(on_delete=models.CASCADE=>포스트 작성자가 데이터베이스에서 삭제되었을 때 포스트도 같이 삭제함)
     author = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
+
+    # 연결된 Category가 삭제된 경우 포스트의 해당 Category 만 삭제되도록 지정(null)
+    category = models.ForeignKey(Category, null=True, blank=True, on_delete=models.SET_NULL)
 
     # 관리자 페이지에서 Post 목록에 title제목과 번호 출력되도록 해줌 self.pk-해당포스트의 pk 값, self.title-해당 포스트의 title값
     # pk는 장고의 모델에 기본적으로 생성되는 필드 = 각 레코드의 고유값 (like 인덱스 번호와 비슷)

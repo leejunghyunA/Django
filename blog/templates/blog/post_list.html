@@ -10,7 +10,7 @@
 
     <!-- 입력한 post를 모두 받아옴for 문 사용 -->
         {% for p in post_list %}
-            <div class="card mb-4">
+            <div class="card mb-4" id="post-{{p.pk}}">
                 {% if p.head_image %}
                     <img class="card-img-top" src="{{p.head_image.url}}" alt="{{p}} head_image">
                 {% else %}
@@ -21,6 +21,11 @@
                 <!--<img class="card-img-top" src="https://picsum.photos/seed/{{p.id}}/700/400" alt="random_image">-->
 
                 <div class="card-body">
+                    {% if p.category %}
+                        <span class="badge badge-light float-right">{{p.category}}</span>
+                    {% else %}
+                        <span class="badge badge-light float-right">미분류</span>
+                    {% endif %}
                     <h2 class="card-title">{{p.title}}</a></h2>
                     {% comment %} <h5 class="text-muted">{{p.hook_text}}</h5> {% endcomment %}
                     {% if p.hook_text %}
@@ -30,6 +35,10 @@
                     <p class="card-text">{{p.content | truncatewords:45}}</p>
                     <!--버튼 생성-->
                     <a href="{{p.get_absolute_url}}" class="btn">더보기</a>
+                </div>
+                <div class="card-footer text-muted">
+                    Posted on {{p.created}} by
+                    <a href="#">{{p.auhor|upper}}</a>
                 </div>
             </div>
         {% endfor %}
