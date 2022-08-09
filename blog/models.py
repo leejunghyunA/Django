@@ -12,6 +12,10 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
+    # category 고유 url 생성
+    def get_absolute_url(self):
+        return f'/blog/category/{self.slug}/'
+
     # Categorys 를 Categories 로 변경 (복수형 직접 설정)
     class Meta:
         verbose_name_plural = 'Categories'

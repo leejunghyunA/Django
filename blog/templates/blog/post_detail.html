@@ -4,12 +4,22 @@
 <!-- base.html에 없는 밑에 부분을 이어줌(밑에 endblock으로 마무리 필수) -->
 {% block main_area %}
     <div id="post-area">
+
         <h1 class="mt-4">{{post.title}}</h1>
         <h5 class="text-muted">{{post.hook_text}}</h5>
         <p class="lead">
             by
-            <a href="#">{{post.author||upper}}</a>
+            <a href="#">{{post.author|upper}}</a>
         </p>
+        {% if post.category %}
+            <span class="badge badge-light">{{post.category}}</span>
+        {% else %}
+            <span class="badge badge-light">미분류</span>
+        {% endif %}
+        <h2 class="card-title">{{p.title}}</a></h2>
+        {% if p.hook_text %}
+            <h5 class="text-muted">{{p.hook_text}}</h5>
+        {% endif %}
         <hr>
         <p>{{post.created_at}}</p>
         <hr>

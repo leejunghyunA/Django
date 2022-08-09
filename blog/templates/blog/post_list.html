@@ -4,7 +4,7 @@
 <!-- base.html에 없는 밑에 부분을 이어줌(밑에 endblock으로 마무리 필수) -->
 {% block main_area %}
 
-    <h1>블로그 list</h1>
+    <h1>블로그 list {% if category %}<span class="badge badge-light">{{category}}</span>{% endif %}</h1>
     <!--포스트리스트에 포스트가 있으면 실행-->
     {% if post_list.exists %}
 
@@ -21,13 +21,13 @@
                 <!--<img class="card-img-top" src="https://picsum.photos/seed/{{p.id}}/700/400" alt="random_image">-->
 
                 <div class="card-body">
+                    <!--category 보이게-->
                     {% if p.category %}
                         <span class="badge badge-light float-right">{{p.category}}</span>
                     {% else %}
                         <span class="badge badge-light float-right">미분류</span>
                     {% endif %}
                     <h2 class="card-title">{{p.title}}</a></h2>
-                    {% comment %} <h5 class="text-muted">{{p.hook_text}}</h5> {% endcomment %}
                     {% if p.hook_text %}
                         <h5 class="text-muted">{{p.hook_text}}</h5>
                     {% endif %}
