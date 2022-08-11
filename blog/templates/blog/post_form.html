@@ -8,6 +8,11 @@
     <form method="post" enctype="multipart/form-data">{% csrf_token %} 
         <table>
             {{form}}
+            <!--태그 입력란 (바로 추가할 수 있도록)-->
+            <tr>
+                <th><label for="id_tags_str">Tags:</label></th>
+                <td><input type="text" name="tags_str" id="id_tags_str"></td>
+            </tr>
         </table>
         <button type="submit" class="btn btn-primary float-right">Submit</button>
     </form>
