@@ -35,9 +35,9 @@ class PostCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
 
     # 자동으로 author 필드 채우기(form_valid => 방문자가 폼에 담아 보낸 유효한 정보를 사용해 포스트를 만들고, 이 포스트의 고유 경로로 보내주는 역할)
     def form_valid(self, form):
-        currnet_user = self.request.user
+        current_user = self.request.user
         if current_user.is_authenticated and (current_user.is_staff or current_user.is_superuser):
-            form.instance.author = currnet_user
+            form.instance.author = current_user
 
             # 태그 출력
             response = super(PostCreate, self).form_valid(form)
@@ -51,6 +51,7 @@ class PostCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
                     t = t.strip()
                     tag, is_tag_created = Tag.objects.get_or_create(name=t)
                     if is_tag_created:
+                        # slugify=> 태그이름 검색시 slug 자동생성
                         tag.slug = slugify(t, allow_unicode=True)
                         tag.save()
                     self.object.tags.add(tag)
@@ -67,6 +68,16 @@ class PostUpdate(LoginRequiredMixin, UpdateView):
     # 템플릿 파일 지정
     template_name = 'blog/post_update_form.html'
 
+    # tag가 존재하면 해당 tag 이름을 리스트형태로 담은 후 하나의 문자열로 생성(get_context_data이용) 후 딕셔너리 형태로 저장
+    def get_context_data(self, **kwargs):
+        context = super(PostUpdate, self).get_context_data()
+        if self.object.tags.exists():
+            tags_str_list = list()
+            for t in self.object.tags.all():
+                tags_str_list.append(t.name)
+            context['tags_str_default'] = ';'.join(tags_str_list)
+        return context
+
     # dispatch => 방문자가 웹 사이트서버에 Get방식으로 요청했는지 Post 방식으로 요철했는지 판단
     # 권한이 없는 사용자가 postupdate를 사용하려고 하면 통신방식에 상관없이 접근 할 수 없도록 수정
     def dispatch(self, request, *args, **kwargs):
@@ -75,6 +86,28 @@ class PostUpdate(LoginRequiredMixin, UpdateView):
         else:
             raise PermissionDenied
             # 권한이 없는 사용자가 포스트를 수정하려 할 때 오류 메세지 출력
+
+    # 태그 삭제 기능 추가
+    def form_valid(self, form):
+        response = super(PostUpdate, self).form_valid(form)
+        self.object.tags.clear()
+
+        tags_str = self.request.POST.get('tags_str')
+        if tags_str:
+            tags_str = tags_str.strip()
+            tags_str = tags_str.replace(',', ';')
+            tags_list = tags_str.split(';')
+
+            for t in tags_list:
+                t = t.strip()
+                tag, is_tag_created = Tag.objects.get_or_create(name=t)
+                if is_tag_created:
+                    # slugify=> 태그이름 검색시 slug 자동생성
+                    tag.slug = slugify(t, allow_unicode=True)
+                    tag.save()
+                self.object.tags.add(tag)
+        return response
+        # return super(PostCreate, self).form_valid(form)
 
 # 카테고리 페이지(해당 카테고리 포스트만 보여주도록)
 def category_page(request, slug):
