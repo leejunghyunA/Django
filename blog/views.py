@@ -1,6 +1,7 @@
-from django.shortcuts import render
-from django.views.generic import ListView, DetailView
-from .models import Post, Category
+from django.shortcuts import render, redirect
+from django.views.generic import ListView, DetailView, CreateView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from .models import Post, Category, Tag
 
 # 요청을 받으면 포스트에 받은객체를 rendering해서 넣어줌
 class PostList(ListView):
@@ -14,7 +15,21 @@ class PostList(ListView):
         context['no_category_post_count'] = Post.objects.filter(category=None).count()
 
         return context
-    
+
+# 장고에서 제공하는 CreateView를 상속    
+class PostCreate(LoginRequiredMixin, CreateView):
+    model = Post
+    fields = ['title', 'hook_text', 'content', 'head_image', 'file_upload', 'category']
+
+    # 자동으로 author 필드 채우기
+    def form_valid(self, form):
+        currnet_user = self.request.user
+        if current_user.is_authenticated:
+            form.instance.author = currnet_user
+            return super(PostCreate, self).form_valid(form)
+        else:
+            return redirect('/blog/')
+            
 # 카테고리 페이지(해당 카테고리 포스트만 보여주도록)
 def category_page(request, slug):
 
@@ -37,6 +52,20 @@ def category_page(request, slug):
             'categories':Category.objects.all(),
             'no_category_post_count':Post.objects.filter(category=None).count(),
             'category':category,
+        }
+    )
+
+# tag 페이지(해당 tag만 보여주도록)
+def tag_page(request, slug):
+    return render(
+        request,
+            # post_list와 동일한 출력모양(템플릿 설정)
+        'blog/post_list.html',
+        {
+            # post_list에 context 부분 정의
+            'post_list': post_list,
+            'categories':Category.objects.all(),
+            'no_category_post_count':Post.objects.filter(category=None).count(),
         }
     )
 
