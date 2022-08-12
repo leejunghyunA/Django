@@ -4,6 +4,7 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView
 # Login->로그인했을 때만 페이지가 정상적으로 보이게 / User-> 페이지에 접근가능한 사용자를 최고관리자 or 스태프로 제한
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .models import Post, Category, Tag
+from .forms import CommentForm
 
 # 포스트 작성자만 수정할 수 있게 구현
 from django.core.exceptions import PermissionDenied
@@ -21,6 +22,7 @@ class PostList(ListView):
         context = super(PostList, self).get_context_data()
         context['categories'] = Category.objects.all()
         context['no_category_post_count'] = Post.objects.filter(category=None).count()
+        context['comment_form'] = CommentForm
 
         return context
 

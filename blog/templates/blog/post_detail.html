@@ -1,5 +1,6 @@
 <!-- base.html을 불러옴 -->
 {% extends 'blog/base.html' %}
+{% load crispy_forms_tags %}
 {% block head_title %} {{post.title}} -Blog {% endblock %}
 <!-- base.html에 없는 밑에 부분을 이어줌(밑에 endblock으로 마무리 필수) -->
 {% block main_area %}
@@ -66,7 +67,39 @@
         <hr>
     </div>
     <div id="comment-area">
-        <p>*한줄평*</p>
+        <!--댓글-->
+        <div class="card my-4">
+            <h5 class="card-header">Leave a Comment:</h5>
+            <div class="card-body">
+                {% if user.is_authenticated %}
+                <form id="comment-form" method="POST" action="{{post.get_absolute_url}} new_comment/">
+                    <div class="form-group">
+                        {{comment_form|crispy}}
+                        {% comment %} <textarea class="form-control" rows="3"></textarea> {% endcomment %}
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </fomr>
+                {% else %}
+                    <a role="button" class="btn btn-outline-dark btn-block btn-sm" href="#" data-toggle="modal" data-target="#loginModal">Log in and leave a comment</a>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- 댓글 작성 -->
+        {% if post.comment_set.exists %}
+            {% for comment in post.comment_set.iterator %}
+            <!-- Single Comment -->
+            <div class="media mb-4" id="comment-{{comment.pk}}">
+                <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
+                <div class="media-body">
+                    <h5 class="mt-0">{{comment.author.username}}&nbsp;&nbsp;<small class="text-muted">{{comment.created_at}}</small>
+                    </h5>
+                    <p>{{comment.content|linebreaks}}</p>
+                </div>
+            </div>
+            {% endfor %}
+        {% endif %}
     </div>
+    <hr/>
     
 {% endblock %}
