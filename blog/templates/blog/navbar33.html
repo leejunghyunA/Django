@@ -1,0 +1,43 @@
+<style>
+    .menu *{
+        display: inline;
+    }
+    .menu li{
+        margin: 35px;
+    }
+    .menu li a{
+        color: rgb(1,1,1);
+        text-decoration: none;
+    }
+    .menu ul{
+        padding: 30%;
+    }
+    .menu{
+        font-size: 20px;
+        font-style: italic;
+        align-items: center;
+        padding-top: 80px;
+        top: 0;
+        lef: 0;
+        right: 0;
+        height: 80px;
+    }
+</style>
+<!-- navbar -->
+{% load socialaccount %}
+<div class="container">
+    <header id = "header">
+        <div class="float-right">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-toogle="modal" data-target="#loginModal">Log In</a>
+        </div>
+        <nav class="menu">
+            <ul>
+                <li><a href = "/">Home</a></li>
+                <li><a href = "/blog/">Blog</a></li>
+                <li><a href = "/about_me/">About me</a></li>
+            </ul>
+        </div>
+    </nav>
+</div>
+<br/>
+<hr>

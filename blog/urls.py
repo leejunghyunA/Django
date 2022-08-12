@@ -1,4 +1,4 @@
-# from . import views => 현재 폴더에 있는 views.py를 가져옴
+
 from django.urls import path, include
 from . import views
 

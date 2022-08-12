@@ -2,7 +2,10 @@ from django.db import models
 
 # User (장고기본모델)을 사용하기 위해 불러옴 author 필드 구현
 from django.contrib.auth.models import User
+from markdownx.models import MarkdownxField
+from markdownx.utils import markdown
 import os
+
 
 # tag 모델 만들기(unique=True=> 동일한 이름을 갖는건 추가 안함/ SlugField=> 사람이 읽을 수 있는 텍스트로 고유 URL을 만들 때 주사용)
 class Tag(models.Model):
@@ -35,7 +38,8 @@ class Category(models.Model):
 # CharField = 문자를 담는 필드/ TextFied = 문자열의 길이 제한이 없음/ DateTimeField = 월,일,시,분,초를 기록할 수 있게 해주는 필드
 class Post(models.Model):
     title = models.CharField(max_length=30)
-    content = models.TextField()
+    # content = models.TextField()
+    content = MarkdownxField()
 
     # 포스트 요약문보여주기
     hook_text = models.CharField(max_length = 100, blank = True)
@@ -76,3 +80,7 @@ class Post(models.Model):
     # 확장자 
     def get_file_ext(self):
         return self.get_file_name().split('.')[-1]
+
+    # 마크다운
+    def get_content_markdown(self):
+        return markdown(self.content)

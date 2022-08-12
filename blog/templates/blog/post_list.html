@@ -41,7 +41,7 @@
                         <h5 class="text-muted">{{p.hook_text}}</h5>
                     {% endif %}
                     <h4>{{p.created_at}}</h4>
-                    <p class="card-text">{{p.content | truncatewords:45}}</p>
+                    <p class="card-text">{{p.get_content_markdown | truncatewords_html:45|safe}}</p>
 
                     <!-- tag 보이게 -->
                     {% if p.tags.exists %}
