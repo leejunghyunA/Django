@@ -55,7 +55,7 @@ class Post(models.Model):
     updated_at = models.DateTimeField(auto_now = True)
 
     # user을 불러와 author 필드 구현(on_delete=models.CASCADE=>포스트 작성자가 데이터베이스에서 삭제되었을 때 포스트도 같이 삭제함)
-    author = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
 
     # 연결된 Category가 삭제된 경우 포스트의 해당 Category 만 삭제되도록 지정(null)
     category = models.ForeignKey(Category, null=True, blank=True, on_delete=models.SET_NULL)
@@ -97,5 +97,6 @@ class Comment(models.Model):
         return f'{self.author}::{self.content}'
 
     def get_absolute_url(self):
-        return f'{self.post.get_absolute_url()}#comment-{self.pk}'
+        return f'{self.post.get_absolute_url()}#comment-{self.pk}/'
+    
     

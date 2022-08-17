@@ -11,6 +11,8 @@
     {% endif %}
 
     <h1>블로그 list 
+        <!--검색어 기능-->
+        {% if search_info %}<small class="text-muted">{{search_info}}</small>{% endif %}
         {% if category %}<span class="badge badge-light">{{category}}</span>{% endif %}
     <h3>{% if tag %}<span class="badge badge-light"><i class="fas fa-tags"></i>{{tag}}({{tag.post_set.count}})</span>{% endif %}</h3>
     </h1>
@@ -53,10 +55,10 @@
                         <br/>
                     {% endif %}
                     <!--버튼 생성-->
-                    <a href="{{p.get_absolute_url}}" class="btn">더보기</a>
+                    <a href="{{p.get_absolute_url}}" class="btn">더보기>></a>
                 </div>
                 <div class="card-footer text-muted">
-                    Posted on {{p.created}} by
+                    Posted on {{p.created}} by {{p.author.username}}
                     <a href="#">{{p.auhor|upper}}</a>
                 </div>
             </div>
@@ -64,15 +66,30 @@
     {% else %}
         <p>아직 게시물이 없습니다.</p>
     {% endif %}
-
+    
     <!--page 넘기기-->
+    <!--포스트 개수가 5개 이하면 이 부분이 보이지 않음 =>vies.py에서 설정-->
+    {% if is_paginated %} 
     <ul class="pagination justify-content-center mb-4">
+        <!--다음 페이지가 있는지 알아내어 비활성화 상태로 할지 여부 결정-->
+        {% if page_obj.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{page_obj.next_page_number}}">&larr;이전</a>
+            </li>
+        {% else %}
+            <li class="page-item disabled">
+                <a class="page-link" href="#">&larr; 이전</a>
+            </li>
+        {% endif %}
+        {% if page_obj.has_previous %}
         <li class="page-item">
-            <a class="page-link" href="#">&larr; 이전</a>
+            <a class="page-link" href="?page={{page_obj.previous_page_number}}">다음 &rarr;</a>
         </li>
+        {% else %}
         <li class="page-item disabled">
             <a class="page-link" href="#">다음 &rarr;</a>
         </li>
+        {% endif %}
     </ul>
-
+    {% endif %}
 {% endblock %}

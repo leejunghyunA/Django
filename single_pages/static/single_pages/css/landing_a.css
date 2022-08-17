@@ -1,20 +1,20 @@
 body{
-    background-color: aliceblue;
+    background-color: rgb(6, 60, 107);
 }
 
 .header{
     padding-top: 150px;
 }
 .main_text{
-    color: whitesmoke;
+    color: rgb(44, 2, 2);
 }
 
 .side_text{
-    color: azure;
+    color: rgb(56, 65, 65);
 }
 
 .p_text{
-    color: rgb(255, 127, 127);
+    color: rgb(73, 39, 39);
 }
 .contact_pic{
     width: 100%;

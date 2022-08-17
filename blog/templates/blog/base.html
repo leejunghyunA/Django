@@ -10,7 +10,7 @@
     <style>
         body{
             font-family: monospace, fantasy;
-            background-color: aliceblue;
+            background-color: ivory;
         }
 
         .main_body{
@@ -32,6 +32,18 @@
             </div>
 
             <div class="col-md-4 col-lg-3">
+                <!--search 창-->
+                <div class="card my-4">
+                    <h5 class="card-header">Search</h5>
+                    <div class="card-body">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Search for..." id="search-input">
+                            <span class="input-group-btn">
+                                <button class="btn btn-primary" type="button" onclick="searchPost();">Go!</button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
                 <div class="card my-4">
                     <ul class="list-group">
                         <li class="list-group-item disabled" aria-disabled="true">참고한 사이트</li>
@@ -60,6 +72,28 @@
             </div>
         </div>
     </div>
+
+    <!--검색 창 내용 띄우기-->
+    <!--trim(앞뒤 공백을 제거) => 길이가 1보다 큰 경우만 검색 가능 -->
+    <!--urls와 view에서 보완-->
+    <script>
+        function searchPost(){
+            let searchValue = document.getElementById('search-input').value.trim();
+            if (searchValue.length>1){
+                location.href="/blog/search/" + searchValue + "/";
+            }
+            else{
+                alert('검색어('+searchValue+')가 너무 짧습니다!');
+            }
+        };
+
+        document.getElementById('search-input').addEventListener('keyup', function(event){
+            if (event.key == 'Enter'){
+                searchPost();
+            }
+        });
+    </script>
+    <!-- 검색창에 enter을 눌러도 go버튼을 클릭할 때와 동일하게 작동-->
 
     <!-- footer 불러오기 -->
     {% include 'blog/footer.html' %}

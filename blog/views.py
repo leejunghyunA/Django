@@ -3,7 +3,7 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView
 
 # Login->로그인했을 때만 페이지가 정상적으로 보이게 / User-> 페이지에 접근가능한 사용자를 최고관리자 or 스태프로 제한
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from .models import Post, Category, Tag
+from .models import Post, Category, Tag, Comment
 from .forms import CommentForm
 
 # 포스트 작성자만 수정할 수 있게 구현
@@ -12,10 +12,14 @@ from django.core.exceptions import PermissionDenied
 # 태그가 없으면 새로 만들도록
 from django.utils.text import slugify
 
+# 검색기능
+from django.db.models import Q
+
 # 요청을 받으면 포스트에 받은객체를 rendering해서 넣어줌
 class PostList(ListView):
     model = Post
     ordering = '-pk'
+    paginate_by = 5 # 1페이지에 5개의 포스트만 보여주기
 
     # category 추가 (get_context_data 내장 함수 오버라이딩)
     def get_context_data(self, **kwargs):
@@ -162,6 +166,7 @@ class PostDetail(DetailView):
         context = super(PostDetail, self).get_context_data()
         context['categories'] = Category.objects.all()
         context['no_category_post_count'] = Post.objects.filter(category=None).count()
+        context['comment_form'] = CommentForm
 
         return context
 
@@ -170,7 +175,7 @@ def new_comment(request, pk):
     if request.user.is_authenticated:
         post = get_object_or_404(Post, pk=pk)
 
-        if reqeust.method == 'POST':
+        if request.method == 'POST':
             comment_form = CommentForm(request.POST)
             if comment_form.is_valid():
                 comment = comment_form.save(commit=False)
@@ -182,6 +187,52 @@ def new_comment(request, pk):
             return redirect(post.get_absolute_url())
     else:
         raise PermissionDenied
+
+# 댓글 수정 class(로그인이 )
+class CommentUpdate(LoginRequiredMixin, UpdateView):
+    model = Comment
+    form_class = CommentForm
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated and request.user == self.get_object().author:
+            return super(CommentUpdate, self).dispatch(request, *args, **kwargs)
+        else:
+            raise PermissionDenied
+
+# delete_comment 함수 생성 (방문자의 권한 확인 => 조건 만족시 해당 댓글 삭제 가능 없다면 PermissionDenied 오류발생)
+def delete_comment(request, pk):
+    # pk에 해당 댓글이 없으면 404 오류 발생
+    comment = get_object_or_404(Comment, pk=pk)
+    post = comment.post
+    if request.user.is_authenticated and request.user == comment.author:
+        comment.delete()
+        return redirect(post.get_absolute_url())
+    else:
+        raise PermissionDenied
+
+# 검색기능 구현 (PostList클래스 상속)
+class PostSearch(PostList):
+    # 검색 시 한 페이지에 출력
+    paginate_by = None
+    
+    #get_queryset을 오버라이딩(url을 통해 넘어온 검색어를 q라는 변수에 저장)
+    #Q => 여러쿼리를 동시에 쓸 때 사용 (title과 tags에 q가 포함되어있는 레코드를 db에서 가져옴 * __ 쿼리 조건<.과 같은 의미>)
+    #distinct => 중복 방지
+    def get_queryset(self):
+        q = self.kwargs['q']
+        post_list = Post.objects.filter(
+            Q(title__contains=q) | Q(tags__name__contains=q)
+        ).distinct()
+        return post_list
+
+    # 해당 q가 몇개의 포스트가 포함되어있는지 출력
+    def get_context_data(self, **kwargs):
+        context = super(PostSearch, self).get_context_data()
+        q = self.kwargs['q']
+        context['search_info'] = f'검색어: {q} ({self.get_queryset().count()})'
+
+        return context
+
 # Create your views here.
 
 # #FBV 방법

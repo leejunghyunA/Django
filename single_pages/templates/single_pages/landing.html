@@ -3,28 +3,181 @@
 <html lang="ko">
 <head>
     <meta charset = "UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <title>LANDING</title>
+    <!-- Google fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="{% static 'single_pages/css/bootstrap.min.css' %}" media="screen">
-    <link rel="stylesheet" href="{% static 'single_pages/css/landing_a.css' %}" media="screen">
+    {% comment %} <link rel="stylesheet" href="{% static 'single_pages/css/landing_a.css' %}" media="screen"> {% endcomment %}
 
     <script src="https://kit.fontawesome.com/cc6b89498d.js" crossorigin="anonymous"></script>
     <!-- 내 킷코드 -->
+    <style>
+        body{
+            background-color: ivory;
+        }
+        header.masthead {
+            position: relative;
+            margin-bottom: 3rem;
+            padding-top: calc(8rem + 57px);
+            padding-bottom: 8rem;
+            background: no-repeat center center;
+            background-color: #6c757d;
+            background-size: cover;
+            background-attachment: scroll;
+        }
+        header.masthead:before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #212529;
+        opacity: 0.5;
+        }
+        header.masthead .page-heading,
+        header.masthead .post-heading,
+        header.masthead .site-heading {
+        color: #fff;
+        }
+        header.masthead .page-heading,
+        header.masthead .site-heading {
+        text-align: center;
+        }
+        header.masthead .page-heading h1, header.masthead .page-heading .h1,
+        header.masthead .site-heading h1,
+        header.masthead .site-heading .h1 {
+        font-size: 3rem;
+        }
+        header.masthead .page-heading .subheading,
+        header.masthead .site-heading .subheading {
+        font-size: 1.5rem;
+        font-weight: 300;
+        line-height: 1.1;
+        display: block;
+        margin-top: 0.625rem;
+        font-family: "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+        }
+        header.masthead .post-heading h1, header.masthead .post-heading .h1 {
+        font-size: 2.25rem;
+        }
+        header.masthead .post-heading .meta,
+        header.masthead .post-heading .subheading {
+        line-height: 1.1;
+        display: block;
+        }
+        header.masthead .post-heading .subheading {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin: 0.75rem 0 2rem;
+        font-family: "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+        }
+        header.masthead .post-heading .meta {
+        font-size: 1.25rem;
+        font-weight: 300;
+        font-style: italic;
+        font-family: "Lora", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+        }
+        header.masthead .post-heading .meta a {
+        color: #fff;
+        }
+        @media (min-width: 992px) {
+            header.masthead {
+                padding-top: 12.5rem;
+                padding-bottom: 12.5rem;
+            }
+            header.masthead .page-heading h1, header.masthead .page-heading .h1,
+        header.masthead .site-heading h1,
+        header.masthead .site-heading .h1 {
+            font-size: 3rem;
+            }
+            header.masthead .post-heading h1, header.masthead .post-heading .h1 {
+              font-size: 2.5rem;
+            }
+            header.masthead .post-heading .subheading {
+              font-size: 1.875rem;
+            }
+        }
+        .post-preview > a {
+            color: #212529;
+        }
+        .post-preview > a:focus, .post-preview > a:hover {
+        text-decoration: none;
+        color: #0085A1;
+        }
+        .post-preview > a > .post-title {
+        font-size: 1.875rem;
+        margin-top: 1.875rem;
+        margin-bottom: 0.625rem;
+        }
+        .post-preview > a > .post-subtitle {
+        font-weight: 300;
+        margin-bottom: 0.625rem;
+        }
+        .post-preview > .post-meta {
+        font-size: 1.125rem;
+        font-style: italic;
+        margin-top: 0;
+        color: #6c757d;
+        }
+        .post-preview > .post-meta > a {
+        text-decoration: none;
+        }
+        @media (min-width: 992px) {
+            .post-preview > a > .post-title {
+              font-size: 2.25rem;
+            }
+        }
+          
+    </style>
 </head>
 <body>
     {% include 'blog/navbar.html' %}
 
-    <div class="header">
-        <div class="container">
-            <h1 class="text-center">Lee Jung Hyun^^</h1>
-            <img src="../../../../static/single_pages/images/바탕.jpg" class="contact_pic">
-            <h1 class="main_text">**Welcome**</h1>
-            <h2 class="side_text">빅데이터 전문과정 수업 요약</h2>
-            <p class="p_text">!</p>
+    <header class="masthead" style="background-image: url('/static/single_pages/images/home-bg.jpg')">
+        <div class="container position-relative px-4 px-lg-5">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <div class="site-heading">
+                    <h1>Django 연습 페이지</h1>
+                    <span class="subheading">서투른 개발자의 연습공간</span>
+                </div>
+            </div>
         </div>
-            <!-- footer 불러오기 -->
-        <div class="bottom">
-            {% include 'blog/footer.html' %}
+    </header>
+    <!--최신 개시글-->
+    <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <h2>Blog -최신글</h2>
+                {% for post in recent_posts %}
+                    <br>
+                    <hr class="my-4" />
+                    <div class="post-preview">
+                        <h3><a href="{{post.get_absolute_url}}" class="text-decoration-none text-dark">{{post.title}}</a></h3>
+                        <h5>{{post.hook_text}}</h5>
+                        <span class="badge badge-light float-right mb-4">
+                            {{post.author.username}}
+                            &nbsp;
+                            &nbsp;
+                            {{post.created_at}}
+                        </span>
+                    </div>
+                {% endfor %}
+                    <br>
+                    <hr class="my-4" />
+                    <!--더보기 버튼-->
+                    <div class="d-flex justify-content-end mb-4"><a class="btn btn-light text-uppercase" href="/blog/">이전 게시글 >> </a></div>
+            </div>
         </div>
     </div>
+        <!-- footer 불러오기 -->
+    <div class="bottom mt-4">
+        {% include 'blog/footer.html' %}
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js"></script>
 </body>
 </html>
