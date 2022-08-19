@@ -1,4 +1,4 @@
-<!-- 두수를 입력받는 프로그램 생성-->
+<!-- 생존율 예측 결과-->
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -27,25 +27,17 @@
 {% include 'blog/navbar.html' %}
 
 <div class="container text-center mt-4">
-    <h1><i class="bi bi-calculator-fill">&nbsp Calulator</i></h1>
-
-    <!--1. 계산값 입력 form (eval함수 사용)-->
-    <form action='result'>
-        <div class="my-4">
-            <h4>***계산할 식***</h4>
-        </div>
-        <hr class="my-4" />
-        <input type="text" name="input_val" placeholder="계산식 입력 *한글입력불가!!* ex)19+9">
-        <div class="push_bt">
-            <button type="submit" class="btn btn-warning">계산하기</button>
-        </div>
-        <!--2. 단순 계산식 (append사용)-->
-        {% comment %} <input type="text" name="input_val1" placeholer="숫자입력 ex)15">
-        <input type="text" name="input_val2" placeholer="숫자입력 ex)15">
-        <div class="push_bt">
-            <input type="submit" id="submit" value="계산하기">
-        </div> {% endcomment %}
-    </form>
+    <h1><i class="bi bi-calculator-fill">&nbsp 생존 예측 결과</i></h1>
+    <div class="my-4">
+        <h4>***결과***</h4>
+    </div>
+    <hr class="my-4" />
+    <div>
+        <!--결과값 변수 작성-->
+        입력값 = {{lis}}
+        결과 = {{ans}}
+    </div>
+    <a href="{% url 'survival' %}" type="button" class="btn btn-warning">reset</a>
 </div>
 
 <div class="fixed-bottom">

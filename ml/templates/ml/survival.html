@@ -1,0 +1,126 @@
+<!-- titanic 생존 예측-->
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset = "UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>Calculator</title>
+    <!-- Google fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.6.0/font/bootstrap-icons.css" />
+
+    <script src="https://kit.fontawesome.com/cc6b89498d.js" crossorigin="anonymous"></script>
+
+    <style>
+        body{
+            background-color: ivory;
+            font-family: monospace, fantasy;
+        }
+        .push_bt{
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+{% include 'blog/navbar.html' %}
+
+<div class="container text-center mt-4">
+    <h1><i class="bi bi-calculator-fill">&nbsp 생존 예측</i></h1>
+
+    <!--1. 계산값 입력 form (eval함수 사용)-->
+    <form action='mlresult'>
+        <div class="my-4">
+            <h4>***값 check***</h4>
+        </div>
+        <hr class="my-4" />
+        <div class="text-left">
+            <div>
+                <p>티켓 요금</p>
+                <input type="checkbox" name="fare_cat" value="1">1등급
+                <input type="checkbox" name="fare_cat" value="2">2등급
+                <input type="checkbox" name="fare_cat" value="3">3등급
+                <input type="checkbox" name="fare_cat" value="4">4등급
+            </div>
+            <br>
+            <div>
+                <p>나이</p>
+                <input type="checkbox" name="age_cat" value="0">10대
+                <input type="checkbox" name="age_cat" value="1">20대
+                <input type="checkbox" name="age_cat" value="2">30대
+                <input type="checkbox" name="age_cat" value="3">40대
+                <input type="checkbox" name="age_cat" value="4">50대~
+            </div>
+            <br>
+            <div>
+                <p>가족 수</p>
+                <input type="text" name="family" placeholder="숫자입력">
+            </div>
+            <br>
+            <div>
+                <p>성별</p>
+                <input type="checkbox" name="sex_female" value="1" id="female_check"/>여자
+                <input type="hidden" name="sex_female" value="0" id="female_check_hidden"/>
+                <input type="checkbox" name="sex_male" value="1" id="male_check"/>남자
+                <input type="hidden" name="sex_male" value="0" id="male_check_hidden"/>
+            </div>
+            <br>
+            <div>
+                <p>승선한 항구</p>
+                <input type="checkbox" name="embarked_C" value="1" id="C_check"/>C 항구
+                <input type="hidden" name="embarked_C" value="0" id="C_check_hidden"/>
+                <input type="checkbox" name="embarked_Q" value="1" id="Q_check"/>Q 항구
+                <input type="hidden" name="embarked_Q" value="0" id="Q_check_hidden"/>
+                <input type="checkbox" name="embarked_S" value="1" id="S_check"/>S 항구
+                <input type="hidden" name="embarked_S" value="0" id="S_check_hidden"/>
+            </div>
+        </div>
+
+
+        {% comment %} 요금 : <input type="text" name="fare_cat" placeholder="1~4 숫자입력">
+        <br>
+        나이 : <input type="text" name="age_cat" placeholder="숫자입력">
+        <br>
+        가족여부 : <input type="text" name="family" placeholder="숫자입력">
+        <br>
+        여자 : <input type="text" name="sex_female" placeholder="숫자입력">
+        <br>
+        남자 : <input type="text" name="sex_male" placeholder="숫자입력">
+        <br>
+        Ebarked C : <input type="text" name="embarked_C" placeholder="숫자입력">
+        <br>
+        Ebarked Q : <input type="text" name="embarked_Q" placeholder="숫자입력">
+        <br>
+        Ebarked S : <input type="text" name="embarked_S" placeholder="숫자입력"> {% endcomment %}
+        <div class="push_bt">
+            <button type="submit" class="btn btn-warning">결과보기</button>
+        </div>
+    </form>
+</div>
+
+<div class="fixed-bottom">
+    {% include 'blog/footer.html' %}
+</div>
+    <script>
+        if(document.getElementById("female_check").checked) {
+            document.getElementById("female_check_hidden").disabled = true;
+        }
+        if(document.getElementById("male_check").checked){
+            document.getElementById("male_check_hidden").disabled = true;
+        }
+        if(document.getElementById("C_check").checked){
+            document.getElementById("C_check_hidden").disabled = true;
+        }
+        if(document.getElementById("Q_check").checked){
+            document.getElementById("Q_check_hidden").disabled = true;
+        }
+        if(document.getElementById("S_check").checked){
+            document.getElementById("S_check_hidden").disabled = true;
+        }
+    </script>        
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js"></script>
+</body>
+</html>
